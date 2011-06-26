@@ -5,10 +5,14 @@
 
 MiniDB (Minimalistic Database)
 
-v. 0.2
+v. 0.3
+
 c. 2011
+
 a. Nijikokun 
+
 t. @nijikokun 
+
 e. nijikokun@gmail.com
 
     /**

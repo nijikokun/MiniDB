@@ -39,7 +39,7 @@ import java.util.LinkedList;
 /**
  * MiNiDB (MiNimalistic Database)
  *
- * @version 0.2
+ * @version 0.3
  * @copyright 2011
  * @author Nijikokun (@nijikokun) <nijikokun@gmail.com>
  */
@@ -69,14 +69,11 @@ public class Mini {
         Mini mini = new Mini(".", "mini");
         Arguments Row;
 
-        Row = new Arguments("Nijikokun");
-        Row.setValue("awesome", "fuck,yeah,this,is,amazing.");
-        mini.addIndex(Row.getKey(), Row);
+        Double amount = mini.getArguments("Nijikokun").getDouble("money");
+        mini.setArgument("Nijikokun", "money", (amount + 2), true);
 
-        mini.update();
-
-        for(String index: mini.getIndices().keySet())
-            System.out.println(mini.getArguments(index).getArray("awesome"));
+        System.out.println(mini.getArguments("Nijikokun").getDouble("money"));
+        System.out.println(mini.getIndices().toString());
     }
 
     private String[] trim(String[] values) {
@@ -93,6 +90,7 @@ public class Mini {
 
     private void read(boolean pushed) {
         this.Database = new Manager(this.folder, this.database, true);
+        this.Database.removeDuplicates();
         this.Database.read();
 
         this.Indexes = new LinkedHashMap<String, Arguments>();
@@ -211,39 +209,7 @@ public class Mini {
      * @param key (<code>String</code>) Key of the value map
      * @param value (<code>String</code>) Value of the value map
      */
-    public void setArgument(String index, String key, String value) {
-        this.setArgument(index, key, value, false);
-    }
-
     public void setArgument(String index, String key, Object value) {
-        this.setArgument(index, key, String.valueOf(value), false);
-    }
-
-    public void setArgument(String index, String key, Boolean value) {
-        this.setArgument(index, key, String.valueOf(value), false);
-    }
-
-    public void setArgument(String index, String key, Double value) {
-        this.setArgument(index, key, String.valueOf(value), false);
-    }
-
-    public void setArgument(String index, String key, Long value) {
-        this.setArgument(index, key, String.valueOf(value), false);
-    }
-
-    public void setArgument(String index, String key, Float value) {
-        this.setArgument(index, key, String.valueOf(value), false);
-    }
-
-    public void setArgument(String index, String key, int value) {
-        this.setArgument(index, key, String.valueOf(value), false);
-    }
-
-    public void setArgument(String index, String key, byte value) {
-        this.setArgument(index, key, String.valueOf(value), false);
-    }
-
-    public void setArgument(String index, String key, char value) {
         this.setArgument(index, key, String.valueOf(value), false);
     }
 
@@ -310,34 +276,6 @@ public class Mini {
         }
 
         this.setArgument(index, key, formatted, save);
-    }
-
-    public void setArgument(String index, String key, Boolean value, boolean save) {
-        this.setArgument(index, key, String.valueOf(value), save);
-    }
-
-    public void setArgument(String index, String key, Double value, boolean save) {
-        this.setArgument(index, key, String.valueOf(value), save);
-    }
-
-    public void setArgument(String index, String key, Float value, boolean save) {
-        this.setArgument(index, key, String.valueOf(value), save);
-    }
-
-    public void setArgument(String index, String key, Long value, boolean save) {
-        this.setArgument(index, key, String.valueOf(value), save);
-    }
-
-    public void setArgument(String index, String key, int value, boolean save) {
-        this.setArgument(index, key, String.valueOf(value), save);
-    }
-
-    public void setArgument(String index, String key, byte value, boolean save) {
-        this.setArgument(index, key, String.valueOf(value), save);
-    }
-
-    public void setArgument(String index, String key, char value, boolean save) {
-        this.setArgument(index, key, String.valueOf(value), save);
     }
 
     /**

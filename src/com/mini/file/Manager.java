@@ -7,8 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.LinkedHashSet;
 
 import java.util.LinkedList;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -239,9 +241,10 @@ public final class Manager {
                     this.lines.add(line);
                     this.source += line + '\n';
                 }
+
+                input.close();
             } catch (IOException ex) {
                 this.log(Level.SEVERE, ex);
-
                 return false;
             }
 
@@ -286,13 +289,14 @@ public final class Manager {
                     output.write(String.valueOf(line));
                     output.newLine();
                 }
+
+                output.close();
             } catch (IOException ex) {
                 this.log(Level.SEVERE, ex);
                 output.close();
                 return false;
             }
 
-            output.close();
             return true;
         } catch (FileNotFoundException ex) {
             this.log(Level.SEVERE, ex);
@@ -353,5 +357,55 @@ public final class Manager {
         }
 
         return true;
+    }
+
+    public void removeDuplicates() {
+        removeDupilcates(directory, file);
+    }
+
+    public void removeDuplicates(String file) {
+        removeDupilcates(directory, file);
+    }
+
+    public void removeDupilcates(String directory, String file) {
+        Set<String> uniqueLines = new LinkedHashSet<String>();
+        this.existsCreate(directory, file);
+        File input = new File(directory, file);
+        BufferedWriter writer;
+        BufferedReader reader;
+        String line;
+
+        try {
+            reader = new BufferedReader(new FileReader(input));
+
+            try {
+                while ((line = reader.readLine()) != null) {
+                    uniqueLines.add(line);
+                }
+
+                reader.close();
+            } catch(IOException e) {
+                reader.close();
+                return;
+            }
+
+            writer = new BufferedWriter(new FileWriter(input));
+
+            try {
+                for(String current: uniqueLines) {
+                    writer.write(current);
+                    writer.newLine();
+                }
+
+                writer.close();
+            } catch(IOException e) {
+                writer.close();
+                return;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return;
+        }
+        return;
     }
 }
